@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom Marker</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+        height: 100%;
+        }
+ 
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+    </style>
+ 
+    <!-- jsFiddle will insert css and js -->
+  </head>
+  <body>
+    <div id="map"></div>
+ 
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
+ 
+    <script>
+ 
+  function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: { lat: -28.024, lng: 140.887 },
+    });
+ 
+    var infowindow = new google.maps.InfoWindow();
+  
+    const markers = locations.map((location, i) => {
+      var marker= new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        icon: locations[i][3]
+      });
+ 
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            infowindow.setContent(locations[i][0]);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+        return marker;
+    });
+ 
+ 
+    // Add a marker clusterer to manage the markers.
+    new MarkerClusterer(map, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
+  }
+ 
+  const locations = [
+    ['Headquarter',-31.56391,147.154312,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
+    ['Branch Store',-33.718234,150.363181,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
+    ['Branch Store',-33.727111,150.371124,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
+    ['Branch Store',-33.848588,151.209834,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
+    ['Branch Store',-33.851702,151.216968,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
+    ['Branch Store',-34.671264,150.863657,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
+    ['Branch Store',-35.304724,148.662905,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
+    ['Branch Store',-36.817685,175.699196,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
+    ['Branch Store',-36.828611,175.790222,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
+    ['Branch Store',-37.75,145.116667,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
+    ['Branch Store',-37.759859,145.128708,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
+    ['Branch Store',-37.765015,145.133858,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
+    ['Branch Store',-37.770104,145.143299,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
+    ['Branch Store',-37.7737,145.145187,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
+    ['Branch Store',-37.774785,145.137978,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
+    ['Branch Store',-37.819616,144.968119,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
+    ['Branch Store',-38.330766,144.695692,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-39.927193,175.053218,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-41.330162,174.865694,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-42.734358,147.439506,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-42.734358,147.501315,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-42.735258,147.438,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+    ['Branch Store',-43.999792,170.463352,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
+  ];
+    </script>
+  </body>
+</html>

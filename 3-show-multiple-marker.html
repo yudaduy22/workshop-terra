@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Marker Clustering</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+        height: 100%;
+        }
+ 
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+    </style>
+ 
+    <!-- jsFiddle will insert css and js -->
+  </head>
+  <body>
+    <div id="map"></div>
+ 
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2"
+      async
+    ></script>
+ 
+    <script>
+    function initMap() {
+ 
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: { lat: -28.024, lng: 140.887 },
+        });
+ 
+        const markers = locations.map((location, i) => {
+          return new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+            map: map
+          });
+        });
+ 
+    }
+      
+    const locations = [
+    [-31.56391,147.154312],
+    [-33.718234,150.363181],
+    [-33.727111,150.371124],
+    [-33.848588,151.209834],
+    [-33.851702,151.216968],
+    [-34.671264,150.863657],
+    [-35.304724,148.662905],
+    [-36.817685,175.699196],
+    [-36.828611,175.790222],
+    [-37.75,145.116667],
+    [-37.759859,145.128708],
+    [-37.765015,145.133858],
+    [-37.770104,145.143299],
+    [-37.7737,145.145187],
+    [-37.774785,145.137978],
+    [-37.819616,144.968119],
+    [-38.330766,144.695692],
+    [-39.927193,175.053218],
+    [-41.330162,174.865694],
+    [-42.734358,147.439506],
+    [-42.734358,147.501315],
+    [-42.735258,147.438],
+    [-43.999792,170.463352],
+    ];
+ 
+    </script>
+  </body>
+</html>
