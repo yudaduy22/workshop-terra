@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Get Current Location</title>
+    <title>Get Current Location + Infowindow</title>
     <style>
         /* Always set the map height explicitly to define the size of the div
             * element that contains the map. */
@@ -44,7 +44,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
 
     <script>
-
+    
     var map, infoWindow;
 
     // initialize a map with given coordinates (call it in HTML!).
@@ -69,42 +69,42 @@
         locationButton.addEventListener("click", () => {
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const pos = {
+                navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
-                  };
+                    };
 
-                var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
+                    var marker = new google.maps.Marker({map: map, position: pos, clickable: true});
 
-                infoWindow = new google.maps.InfoWindow({
-                  content: "Lokasi Anda Disini."
-                });
-                
-                google.maps.event.addListener(marker,'click', function () {
-                  if ( infoWindow.isOpen) { 
-                    infoWindow.close(map, marker);
-                    infoWindow.isOpen = false;
-                  } else {
-                    infoWindow.open(map, marker);
-                    infoWindow.isOpen = true;
-                  }               
-                });
+                    infoWindow = new google.maps.InfoWindow({
+                    content: "Lokasi Anda: Latitude " + position.coords.latitude +" dan Longitude "+ position.coords.longitude
+                    });
+
+                    google.maps.event.addListener(marker,'click', function () {
+                        if ( infoWindow.isOpen) { 
+                            infoWindow.close(map, marker);
+                            infoWindow.isOpen = false;
+                        }
+                        else {
+                            infoWindow.open(map, marker);
+                            infoWindow.isOpen = true;
+                        }               
+                    });
                     
-                map.setZoom(15);
-                map.setCenter(pos);
+                    map.setZoom(15);
+                    map.setCenter(pos);
 
-                getCurrentAddress(map, infoWindow, pos);
-
+                    getCurrentAddress(map, infoWindow, pos);
                 },
-                () => {
-                  handleLocationError(true, infoWindow, map.getCenter());
+                function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
                 }
-              );
+                );
             } else {
-              // Browser doesn't support Geolocation
-              handleLocationError(false, infoWindow, map.getCenter());
+                // Browser doesn't support Geolocation.
+                handleLocationError(false, infoWindow, map.getCenter());
             }
         });
     }
@@ -119,6 +119,7 @@
         );
         infoWindow.open(map);
     }
+
     </script>
   </body>
 </html>

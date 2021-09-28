@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Get Current Location</title>
+    <title>Get Current Location + Nearby Location</title>
     <style>
         /* Always set the map height explicitly to define the size of the div
             * element that contains the map. */
@@ -41,25 +41,35 @@
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=places&v=weekly&channel=2" async></script>
 
     <script>
+    
+    var map;
+    var infowindow;
 
-    var map, infoWindow;
-
-    // initialize a map with given coordinates (call it in HTML!).
     function initMap() {
-        infoWindow = new google.maps.InfoWindow();
-
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
-          center: { lat: -0.5313361, lng: 117.1833331 },
+            center: {
+            lat: -34.397,
+            lng: 150.644
+            },
+            zoom: 6,
+            styles: [    
+                        {
+                            featureType: "poi",
+                            elementType: "labels",
+                            stylers: [{ visibility: "off" }]
+                        }
+                    ]
         });
+        infoWindow = new google.maps.InfoWindow;
 
         getCurrentLocation();
+        getNeabyPlaces();
+        callback();
     }
 
-    // set Map to current location.
     function getCurrentLocation() {
         const locationButton = document.createElement("button");
 
@@ -79,7 +89,7 @@
                 var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
 
                 infoWindow = new google.maps.InfoWindow({
-                  content: "Lokasi Anda Disini."
+                  content: "Your Location is Here"
                 });
                 
                 google.maps.event.addListener(marker,'click', function () {
@@ -95,7 +105,7 @@
                 map.setZoom(15);
                 map.setCenter(pos);
 
-                getCurrentAddress(map, infoWindow, pos);
+                getNeabyPlaces(pos, marker);
 
                 },
                 () => {
@@ -107,18 +117,52 @@
               handleLocationError(false, infoWindow, map.getCenter());
             }
         });
+
+        infowindow = new google.maps.InfoWindow();
+    }
+
+    function getNeabyPlaces(pos){
+        var servicePlace = new google.maps.places.PlacesService(map);
+            servicePlace.nearbySearch({
+                location: pos,
+                radius: 5000,
+                type: ['cafe|restaurant']
+            }, callback);
+    }
+
+    function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                createMarker(results[i]);
+            }
+        }
     }
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
-        infoWindow.setContent(
-            browserHasGeolocation
-            ? // ? 'Error: The Geolocation service failed.'
-                'Error: Unable to get your current location.'
-            : "Error: Your browser doesn't support geolocation."
-        );
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+
         infoWindow.open(map);
     }
+
+    function createMarker(places) {
+        var placeLoc = places.geometry.location;
+        var marker = new google.maps.Marker({
+            map: map,
+            position: places.geometry.location,
+            icon: "http://maps.google.com/mapfiles/ms/micons/red.png"
+        });
+ 
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(places.name);
+            infoWindow.open(map, this);
+        });
+
+        return marker;
+    }
+
     </script>
   </body>
 </html>
