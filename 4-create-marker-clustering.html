@@ -23,57 +23,51 @@
   <body>
     <div id="map"></div>
  
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
  
     <script>
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
-    center: { lat: -28.024, lng: 140.887 },
-  });
- 
-        const markers = jabodetabek.map((location, i) => {
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: { lat: -28.024, lng: 140.887 },
+        });
+        
+        // Membuat looping dengan variabel markers dengan berisikan variabel marker yang mendefinisikan 
+        // operator new untuk membuat markernya 
+        var markers = jabodetabek.map((location, i) => {
           return new google.maps.Marker({
             position: new google.maps.LatLng(jabodetabek[i][0], jabodetabek[i][1]),
             map: map
           });
         });
  
-  // Add a marker clusterer to manage the markers.
-  new MarkerClusterer(map, markers, {
-    imagePath:
-      "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-  });
-}
+        // Tambahkan marker cluster untuk mengelompokkan marker menjadi lebih ringkas.
+        new MarkerClusterer(map, markers, {
+          imagePath:
+            "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+        });
+      }
  
-const locations = [
-  [-31.56391,147.154312 ],
-  [-33.718234,150.363181 ],
-  [-33.727111,150.371124 ],
-  [-33.848588,151.209834 ],
-  [-33.851702,151.216968 ],
-  [-34.671264,150.863657 ],
-  [-35.304724,148.662905 ],
-  [-36.817685,175.699196 ],
-  [-36.828611,175.790222 ],
-  [-37.75,145.116667 ],
-  [-37.759859,145.128708 ],
-  [-37.765015,145.133858 ],
-  [-37.770104,145.143299 ],
-  [-37.7737,145.145187 ],
-  [-37.774785,145.137978 ],
-  [-37.819616,144.968119 ],
-  [-38.330766,144.695692 ],
-  [-39.927193,175.053218 ],
-  [-41.330162,174.865694 ],
-  [-42.734358,147.439506 ],
-  [-42.734358,147.501315 ],
-  [-42.735258,147.438 ],
-  [-43.999792,170.463352 ],
-];
+    // Berikut ini adalah titik-titik persebaran Kota/Kabupaten di sekitar Jabodetabek
+    // yang akan ditampilan diatas peta
+    const jabodetabek = [
+        [-6.2060905,106.8475342],
+        [-6.1554034,106.8926811],
+        [-6.2614652,106.810627],
+        [-6.1674356,106.7637634],
+        [-6.2248623,106.9004059],
+        [-6.4024778,106.7942333],
+        [-6.5971469,106.8060388],
+        [-6.5517758,106.6291304],
+        [-6.9277901,106.9299316],
+        [-7.2134052,106.6291304],
+        [-7.3579773,107.1957203],
+        [-6.3668231,107.1736908],
+        [-6.2381727,106.9755936],
+      ];
  
     </script>
   </body>

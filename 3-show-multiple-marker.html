@@ -3,13 +3,13 @@
   <head>
     <title>Marker Clustering</title>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+        /* Selalu atur tinggi peta secara eksplisit untuk menentukan ukuran div
+        * elemen yang berisi peta. */
         #map {
         height: 100%;
         }
  
-        /* Optional: Makes the sample page fill the window. */
+        /* Opsional: Membuat halaman contoh mengisi window. */
         html,
         body {
         height: 100%;
@@ -17,35 +17,37 @@
         padding: 0;
         }
     </style>
- 
-    <!-- jsFiddle will insert css and js -->
   </head>
   <body>
     <div id="map"></div>
  
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2"
-      async
-    ></script>
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async></script>
  
     <script>
+
+    // Inisiasikan Map dengan sebuah titik koordinat
+    // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
     function initMap() {
  
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 5,
           center: { lat: -0.5313361, lng: 117.1833331 },
         });
- 
+        
+        // Membuat looping dengan variabel markers dengan berisikan variabel marker yang mendefinisikan 
+        // operator new untuk membuat markernya 
         var markers = jabodetabek.map((location, i) => {
-          return new google.maps.Marker({
+          var marker = new google.maps.Marker({
             position: new google.maps.LatLng(jabodetabek[i][0], jabodetabek[i][1]),
             map: map
           });
         });
  
     }
-      
+    
+    // Berikut ini adalah titik-titik persebaran Kota/Kabupaten di sekitar Jabodetabek
+    // yang akan ditampilan diatas peta
     const jabodetabek = [
         [-6.2060905,106.8475342],
         [-6.1554034,106.8926811],

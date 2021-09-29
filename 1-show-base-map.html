@@ -3,13 +3,13 @@
   <head>
     <title>Show Base Map Google Maps Platform</title>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+        /* Selalu atur tinggi peta secara eksplisit untuk menentukan ukuran div
+        * elemen yang berisi peta. */
         #map {
         height: 100%;
         }
  
-        /* Optional: Makes the sample page fill the window. */
+        /* Opsional: Membuat halaman contoh mengisi window. */
         html,
         body {
         height: 100%;
@@ -17,20 +17,17 @@
         padding: 0;
         }
     </style>
- 
-    <!-- jsFiddle will insert css and js -->
   </head>
   <body>
     <div id="map"></div>
  
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2"
-      async
-    ></script>
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async></script>
  
     <script>
-    
+      
+      // Inisiasikan Map dengan sebuah titik koordinat
+      // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
       function initMap() {
  
       var map = new google.maps.Map(document.getElementById('map'), {

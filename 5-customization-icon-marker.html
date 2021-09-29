@@ -3,48 +3,52 @@
   <head>
     <title>Custom Marker</title>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-        #map {
-        height: 100%;
-        }
- 
-        /* Optional: Makes the sample page fill the window. */
-        html,
-        body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        }
-    </style>
- 
-    <!-- jsFiddle will insert css and js -->
+      /* Selalu atur tinggi peta secara eksplisit untuk menentukan ukuran div
+      * elemen yang berisi peta. */
+      #map {
+      height: 100%;
+      }
+
+      /* Opsional: Membuat halaman contoh mengisi window. */
+      html,
+      body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      }
+  </style>
   </head>
   <body>
     <div id="map"></div>
  
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async></script>
  
     <script>
  
     function initMap() {
       
+      // Inisiasikan Map dengan sebuah titik koordinat
+      // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
       var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 5,
       center: { lat: -0.5313361, lng: 117.1833331 },
       });
 
+      // Definisikan infowindow untuk menampilkan informasi tentang markernya
       var infowindow = new google.maps.InfoWindow();
 
-      const markers = jabodetabek.map((location, i) => {
+      // Membuat looping dengan variabel markers dengan berisikan variabel marker yang mendefinisikan 
+      // operator new untuk membuat markernya 
+      var markers = jabodetabek.map((location, i) => {
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(jabodetabek[i][1], jabodetabek[i][2]),
           icon: jabodetabek[i][3]
         });
 
+        // Buat event listener untuk dapat membuat marker dapat diklik dan menampilkan informasi tentang markernya
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
               infowindow.setContent(jabodetabek[i][0]);
@@ -54,13 +58,15 @@
           return marker;
       });
 
-      // Add a marker clusterer to manage the markers.
+      // Tambahkan marker cluster untuk mengelompokkan marker menjadi lebih ringkas.
       new MarkerClusterer(map, markers, {
         imagePath:
           "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
       });
     }
 
+    // Berikut ini adalah titik-titik persebaran Kota/Kabupaten di sekitar Jabodetabek
+    // yang akan ditampilan diatas peta
     const jabodetabek = [
       ['Jakarta Pusat',-6.2060905,106.8475342,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
       ['Jakarta Utara',-6.1554034,106.8926811,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
