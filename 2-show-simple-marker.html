@@ -31,17 +31,18 @@
  
     <script>
     
-      function initMap() {
-        var myLocation = { lat: -28.024, lng: 140.887 };
-        var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 7,
-        center: myLocation,
-        });
- 
-        new google.maps.Marker({
-            position: myLocation,
-            map,
-        });
+    function initMap() {
+      
+      var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 5,
+      center: { lat: -0.5313361, lng: 117.1833331 },
+      });
+
+      var jakarta = { lat: -6.200000, lng: 106.816666 };
+      new google.maps.Marker({
+        position: jakarta,
+        map,
+      });
     }
     </script>
   </body>

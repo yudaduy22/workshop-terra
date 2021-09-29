@@ -21,6 +21,6 @@ Repository of code for Workshop Terralogiq purpose
 
 ## Modul 3: Nearby Places
 1. Show Current Location `10-show-current-location.html`
-2. Search Nearby Places Based on Current Location
+2. Search Nearby Places Based on Current Location `11-show-current-location-and-nearby-places.html`
 3. Show Information of The Places
 4. Show Route From Current Location to Nearby Places

@@ -56,11 +56,11 @@
             },
             zoom: 6,
             styles: [    
-                        {
-                            featureType: "poi",
-                            elementType: "labels",
-                            stylers: [{ visibility: "off" }]
-                        }
+                      {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }]
+                      }
                     ]
         });
         infoWindow = new google.maps.InfoWindow;
@@ -126,7 +126,7 @@
             servicePlace.nearbySearch({
                 location: pos,
                 radius: 5000,
-                type: ['cafe|restaurant']
+                type: ['cafe']
             }, callback);
     }
 
@@ -134,6 +134,7 @@
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
                 createMarker(results[i]);
+                console.log(results[i]);
             }
         }
     }
@@ -148,7 +149,7 @@
     }
 
     function createMarker(places) {
-        var placeLoc = places.geometry.location;
+        // var placeLoc = places.geometry.location;
         var marker = new google.maps.Marker({
             map: map,
             position: places.geometry.location,
@@ -156,7 +157,9 @@
         });
  
         google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(places.name);
+            infoWindow = new google.maps.InfoWindow({
+                  content: places.name + "<br>" + places.place_id
+                });
             infoWindow.open(map, this);
         });
 

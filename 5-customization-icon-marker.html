@@ -30,62 +30,52 @@
  
     <script>
  
-  function initMap() {
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 4,
-      center: { lat: -28.024, lng: 140.887 },
-    });
- 
-    var infowindow = new google.maps.InfoWindow();
-  
-    const markers = locations.map((location, i) => {
-      var marker= new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        icon: locations[i][3]
+    function initMap() {
+      
+      var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 5,
+      center: { lat: -0.5313361, lng: 117.1833331 },
       });
- 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-            infowindow.setContent(locations[i][0]);
-            infowindow.open(map, marker);
-          }
-        })(marker, i));
-        return marker;
-    });
- 
- 
-    // Add a marker clusterer to manage the markers.
-    new MarkerClusterer(map, markers, {
-      imagePath:
-        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-    });
-  }
- 
-  const locations = [
-    ['Headquarter',-31.56391,147.154312,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
-    ['Branch Store',-33.718234,150.363181,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
-    ['Branch Store',-33.727111,150.371124,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
-    ['Branch Store',-33.848588,151.209834,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
-    ['Branch Store',-33.851702,151.216968,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
-    ['Branch Store',-34.671264,150.863657,'http://labs.google.com/ridefinder/images/mm_20_yellow.png' ],
-    ['Branch Store',-35.304724,148.662905,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
-    ['Branch Store',-36.817685,175.699196,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
-    ['Branch Store',-36.828611,175.790222,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
-    ['Branch Store',-37.75,145.116667,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
-    ['Branch Store',-37.759859,145.128708,'http://labs.google.com/ridefinder/images/mm_20_green.png' ],
-    ['Branch Store',-37.765015,145.133858,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
-    ['Branch Store',-37.770104,145.143299,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
-    ['Branch Store',-37.7737,145.145187,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
-    ['Branch Store',-37.774785,145.137978,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
-    ['Branch Store',-37.819616,144.968119,'http://labs.google.com/ridefinder/images/mm_20_blue.png' ],
-    ['Branch Store',-38.330766,144.695692,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-39.927193,175.053218,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-41.330162,174.865694,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-42.734358,147.439506,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-42.734358,147.501315,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-42.735258,147.438,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-    ['Branch Store',-43.999792,170.463352,'http://labs.google.com/ridefinder/images/mm_20_purple.png' ],
-  ];
+
+      var infowindow = new google.maps.InfoWindow();
+
+      const markers = jabodetabek.map((location, i) => {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(jabodetabek[i][1], jabodetabek[i][2]),
+          icon: jabodetabek[i][3]
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(jabodetabek[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+          return marker;
+      });
+
+      // Add a marker clusterer to manage the markers.
+      new MarkerClusterer(map, markers, {
+        imagePath:
+          "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+      });
+    }
+
+    const jabodetabek = [
+      ['Jakarta Pusat',-6.2060905,106.8475342,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
+      ['Jakarta Utara',-6.1554034,106.8926811,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
+      ['Jakarta Selatan',-6.2614652,106.810627,'http://labs.google.com/ridefinder/images/mm_20_red.png'],
+      ['Jakarta Barat',-6.1674356,106.7637634,'http://labs.google.com/ridefinder/images/mm_20_yellow.png'],
+      ['Jakarta Timur',-6.2248623,106.9004059,'http://labs.google.com/ridefinder/images/mm_20_yellow.png'],
+      ['Kota Depok',-6.4024778,106.7942333,'http://labs.google.com/ridefinder/images/mm_20_yellow.png'],
+      ['Kota Bogor',-6.5971469,106.8060388,'http://labs.google.com/ridefinder/images/mm_20_green.png'],
+      ['Kab. Bogor',-6.5517758,106.6291304,'http://labs.google.com/ridefinder/images/mm_20_green.png'],
+      ['Kota Sukabumi',-6.9277901,106.9299316,'http://labs.google.com/ridefinder/images/mm_20_green.png'],
+      ['Kab. Sukabumi',-7.2134052,106.6291304,'http://labs.google.com/ridefinder/images/mm_20_green.png'],
+      ['Kab. Cianjur',-7.3579773,107.1957203,'http://labs.google.com/ridefinder/images/mm_20_purple.png'],
+      ['Kab. Bekasi',-6.3668231,107.1736908,'http://labs.google.com/ridefinder/images/mm_20_purple.png'],
+      ['Kota Bekasi',-6.2381727,106.9755936,'http://labs.google.com/ridefinder/images/mm_20_purple.png'],
+    ]
     </script>
   </body>
 </html>

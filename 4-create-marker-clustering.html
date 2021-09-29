@@ -35,11 +35,12 @@ function initMap() {
     center: { lat: -28.024, lng: 140.887 },
   });
  
-  const markers = locations.map((location, i) => {
-    return new google.maps.Marker({
-      position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-    });
-  });
+        const markers = jabodetabek.map((location, i) => {
+          return new google.maps.Marker({
+            position: new google.maps.LatLng(jabodetabek[i][0], jabodetabek[i][1]),
+            map: map
+          });
+        });
  
   // Add a marker clusterer to manage the markers.
   new MarkerClusterer(map, markers, {
