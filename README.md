@@ -18,9 +18,3 @@ Repository of code for Workshop Terralogiq purpose
 2. Show Marker in Current Location `7-show-marker-current-location.html`
 3. Show infoWindow on Marker in Current Location `8-show-info-window-current-location.html`
 4. Convert Current Location to Readable Address `9-convert-current-location-to-address.html`
-
-## Modul 3: Nearby Places
-1. Show Current Location `10-show-current-location.html`
-2. Search Nearby Places Based on Current Location `11-show-current-location-and-nearby-places.html`
-3. Show Information of The Places
-4. Show Route From Current Location to Nearby Places
