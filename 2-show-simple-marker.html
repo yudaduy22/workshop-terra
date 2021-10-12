@@ -32,13 +32,13 @@
     // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
     function initMap() {
       
-      var map = new google.maps.Map(document.getElementById('map'), {
+      const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 5,
       center: { lat: -0.5313361, lng: 117.1833331 },
       });
 
       // Disini Anda akan membuat sebuah marker untuk Kota DKI Jakarta
-      var jakarta = { lat: -6.200000, lng: 106.816666 };
+      const jakarta = { lat: -6.200000, lng: 106.816666 };
       new google.maps.Marker({
         position: jakarta,
         map,

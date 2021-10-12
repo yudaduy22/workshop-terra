@@ -32,18 +32,18 @@
       
       // Inisiasikan Map dengan sebuah titik koordinat
       // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
-      var map = new google.maps.Map(document.getElementById('map'), {
+      const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 5,
       center: { lat: -0.5313361, lng: 117.1833331 },
       });
 
       // Definisikan infowindow untuk menampilkan informasi tentang markernya
-      var infowindow = new google.maps.InfoWindow();
+      const infowindow = new google.maps.InfoWindow();
 
       // Membuat looping dengan variabel markers dengan berisikan variabel marker yang mendefinisikan 
       // operator new untuk membuat markernya 
-      var markers = jabodetabek.map((location, i) => {
-        var marker = new google.maps.Marker({
+      const markers = jabodetabek.map((location, i) => {
+        const marker = new google.maps.Marker({
           position: new google.maps.LatLng(jabodetabek[i][1], jabodetabek[i][2]),
           icon: jabodetabek[i][3]
         });

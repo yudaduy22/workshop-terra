@@ -39,11 +39,11 @@
 
     <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxx5JT-Th--wTXzAl7bnD-K4Ef9JLcqOA&callback=initMap" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async></script>
 
     <script>
 
-    var map, infoWindow;
+    const map, infoWindow;
 
     // Inisiasikan Map dengan sebuah titik koordinat
     // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
@@ -84,7 +84,7 @@
                 };
               
               // Definisikan Marker dalam fungsi getCurrentLocation untuk menampilkan marker lokasi Anda saat ini
-              var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
+              const marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
 
               // Membuat infoWindow baru dengan menampilkan text yang berisikan titik koordinat Anda saat ini
               infoWindow = new google.maps.InfoWindow({

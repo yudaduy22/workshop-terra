@@ -30,15 +30,15 @@
     // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
     function initMap() {
  
-        var map = new google.maps.Map(document.getElementById('map'), {
+        const map = new google.maps.Map(document.getElementById('map'), {
           zoom: 5,
           center: { lat: -0.5313361, lng: 117.1833331 },
         });
         
         // Membuat looping dengan variabel markers dengan berisikan variabel marker yang mendefinisikan 
         // operator new untuk membuat markernya 
-        var markers = jabodetabek.map((location, i) => {
-          var marker = new google.maps.Marker({
+        const markers = jabodetabek.map((location, i) => {
+          const marker = new google.maps.Marker({
             position: new google.maps.LatLng(jabodetabek[i][0], jabodetabek[i][1]),
             map: map
           });
