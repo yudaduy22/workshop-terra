@@ -3,13 +3,13 @@
   <head>
     <title>Get Current Location</title>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-            * element that contains the map. */
-            #map {
+        /* Selalu atur tinggi peta secara eksplisit untuk menentukan ukuran div
+        * elemen yang berisi peta. */
+        #map {
         height: 100%;
         }
 
-        /* Optional: Makes the sample page fill the window. */
+        /* Opsional: Membuat halaman contoh mengisi window. */
         html,
         body {
         height: 100%;
@@ -33,82 +33,92 @@
         background: #ebebeb;
         }
     </style>
-
-    <!-- jsFiddle will insert css and js -->
   </head>
   <body>
     <div id="map"></div>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxx5JT-Th--wTXzAl7bnD-K4Ef9JLcqOA&callback=initMap" async></script>
 
     <script>
 
     var map, infoWindow;
 
-    // initialize a map with given coordinates (call it in HTML!).
+    // Inisiasikan Map dengan sebuah titik koordinat
+    // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
     function initMap() {
-        infoWindow = new google.maps.InfoWindow();
+      infoWindow = new google.maps.InfoWindow();
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
-          center: { lat: -0.5313361, lng: 117.1833331 },
-        });
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 5,
+        center: { lat: -0.5313361, lng: 117.1833331 },
+      });
 
-        getCurrentLocation();
+      //Panggil fungsi getCurrentLocation() dalam fungsi initMap untuk dapat menampilkan posisi Anda saat ini
+      getCurrentLocation();
     }
 
-    // set Map to current location.
+    // Fungsi ini berguna untuk menampilkan titik lokasi Anda saat ini
     function getCurrentLocation() {
-        const locationButton = document.createElement("button");
 
-        locationButton.textContent = "Pan to Current Location";
-        locationButton.classList.add("custom-map-control-button");
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-        locationButton.addEventListener("click", () => {
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                  };
+      // Membuat sebuah button
+      const locationButton = document.createElement("button");
 
-                var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
+      // Menambahkan text dalam button dan menambahkan class custom-map-control-button
+      locationButton.textContent = "Pan to Current Location";
+      locationButton.classList.add("custom-map-control-button");
 
-                infoWindow = new google.maps.InfoWindow({
-                  content: "Lokasi Anda Disini."
-                });
-                
-                google.maps.event.addListener(marker,'click', function () {
-                  if ( infoWindow.isOpen) { 
-                    infoWindow.close(map, marker);
-                    infoWindow.isOpen = false;
-                  } else {
-                    infoWindow.open(map, marker);
-                    infoWindow.isOpen = true;
-                  }               
-                });
-                    
-                map.setZoom(15);
-                map.setCenter(pos);
+      // Map control disini berguna untuk mengatur posisi dari buttonnya. Saat ini posisi buttonnya ada di atas tengah
+      map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 
-                getCurrentAddress(map, infoWindow, pos);
+      // Membuat event listener, dimana ketika button diklik maka map akan mendeteksi lokasi Anda
+      locationButton.addEventListener("click", () => {
+          // Berikut ini HTML5 Geolocation
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+              
+              // Definisikan Marker dalam fungsi getCurrentLocation untuk menampilkan marker lokasi Anda saat ini
+              var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
+              
+              // Membuat infoWindow baru dengan menampilkan text "Lokasi Anda Disini."
+              infoWindow = new google.maps.InfoWindow({
+                content: "Lokasi Anda Disini."
+              });
+              
+              // Event listener ini berfungsi agar infoWindow yang sudah diclose dapat muncul kembali ketika diklik dari marker
+              google.maps.event.addListener(marker,'click', function () {
+                if ( infoWindow.isOpen) { 
+                  infoWindow.close(map, marker);
+                  infoWindow.isOpen = false;
+                } else {
+                  infoWindow.open(map, marker);
+                  infoWindow.isOpen = true;
+                }               
+              });
+              
+              // Ketika sudah menemukan lokasi Anda saat ini. Map akan secara otomatis melakukan zoom sejauh 15
+              map.setZoom(15);
+              map.setCenter(pos);
 
-                },
-                () => {
-                  handleLocationError(true, infoWindow, map.getCenter());
-                }
-              );
-            } else {
-              // Browser doesn't support Geolocation
-              handleLocationError(false, infoWindow, map.getCenter());
-            }
-        });
+            },
+              () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+              }
+            );
+          } else {
+            // Browser yang tidak support Geolocation akan menerima error
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
+      });
     }
 
+    // Fungsi ini berupa error bila Geolocation tidak dapat menemukan lokasi Anda atau browser yang Anda gunakan tidak support Geolocation API
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(

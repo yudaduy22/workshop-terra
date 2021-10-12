@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Get Current Location + Address Location</title>
+    <title>Get Current Location + Location Address</title>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-            * element that contains the map. */
-            #map {
+        /* Selalu atur tinggi peta secara eksplisit untuk menentukan ukuran div
+        * elemen yang berisi peta. */
+        #map {
         height: 100%;
         }
 
-        /* Optional: Makes the sample page fill the window. */
+        /* Opsional: Membuat halaman contoh mengisi window. */
         html,
         body {
         height: 100%;
@@ -33,22 +33,20 @@
         background: #ebebeb;
         }
     </style>
-
-    <!-- jsFiddle will insert css and js -->
   </head>
   <body>
     <div id="map"></div>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <!-- Script async segera dieksekusi dan harus setelah elemen DOM apa pun yang digunakan dalam callback. -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly&channel=2" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxx5JT-Th--wTXzAl7bnD-K4Ef9JLcqOA&callback=initMap&v=weekly&channel=2" async></script>
 
     <script>
 
     var map, infoWindow;
 
-    // initialize a map with given coordinates (call it in HTML!).
+    // Inisiasikan Map dengan sebuah titik koordinat
+    // Titik koordinat yang digunakan adalah titik koordinat negara Indonesia
     function initMap() {
         infoWindow = new google.maps.InfoWindow();
 
@@ -57,60 +55,76 @@
           center: { lat: -0.5313361, lng: 117.1833331 },
         });
 
+        //Panggil fungsi getCurrentLocation() dalam fungsi initMap untuk dapat menampilkan posisi Anda saat ini
         getCurrentLocation();
+
+        //Panggil fungsi getCurrentAddress() dengan parameter map, infowindow dan pos dalam fungsi initMap untuk dapat mengkonversikan posisi Anda saat ini menjadi alamat
         getCurrentAddress(map, infoWindow, pos);
     }
 
-    // set Map to current location.
+    // Fungsi ini berguna untuk menampilkan titik lokasi Anda saat ini
     function getCurrentLocation() {
+
+        // Membuat sebuah button
         const locationButton = document.createElement("button");
 
+        // Menambahkan text dalam button dan menambahkan class custom-map-control-button
         locationButton.textContent = "Pan to Current Location";
         locationButton.classList.add("custom-map-control-button");
+
+        // Map control disini berguna untuk mengatur posisi dari buttonnya. Saat ini posisi buttonnya ada di atas tengah
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+        // Membuat event listener, dimana ketika button diklik maka map akan mendeteksi lokasi Anda
         locationButton.addEventListener("click", () => {
-            // Try HTML5 geolocation.
+            // Berikut ini HTML5 Geolocation
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    var pos = {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
-                    };
+                };
+                
+                // Definisikan Marker dalam fungsi getCurrentLocation untuk menampilkan marker lokasi Anda saat ini
+                var marker = new google.maps.Marker({map: map, position: pos, clickable: true, icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"});
 
-                    var marker = new google.maps.Marker({map: map, position: pos, clickable: true});
+                // Membuat infoWindow baru dengan menampilkan text yang berisikan titik koordinat Anda saat ini
+                infoWindow = new google.maps.InfoWindow({
+                content: "Lokasi Anda: Latitude " + position.coords.latitude +" dan Longitude "+ position.coords.longitude
+                });
+                
+                // Event listener ini berfungsi agar infoWindow yang sudah diclose dapat muncul kembali ketika diklik dari marker
+                google.maps.event.addListener(marker,'click', function () {
+                if ( infoWindow.isOpen) { 
+                    infoWindow.close(map, marker);
+                    infoWindow.isOpen = false;
+                } else {
+                    infoWindow.open(map, marker);
+                    infoWindow.isOpen = true;
+                }               
+                });
+                
+                // Ketika sudah menemukan lokasi Anda saat ini. Map akan secara otomatis melakukan zoom sejauh 15
+                map.setZoom(15);
+                map.setCenter(pos);
 
-                    infoWindow = new google.maps.InfoWindow({
-                    content: "Lokasi Anda: Latitude " + position.coords.latitude +" dan Longitude "+ position.coords.longitude
-                    });
+                // Panggil fungsi getCurrentAddress() dengan parameter map, infowindow dan pos dalam fungsi getCurrentLocation untuk dapat mengkonversikan posisi Anda saat ini menjadi alamat
+                getCurrentAddress(map, infoWindow, pos)
 
-                    google.maps.event.addListener(marker,'click', function () {
-                        if ( infoWindow.isOpen) { 
-                            infoWindow.close(map, marker);
-                            infoWindow.isOpen = false;
-                        }
-                        else {
-                            infoWindow.open(map, marker);
-                            infoWindow.isOpen = true;
-                        }               
-                    });
-                    
-                    map.setZoom(15);
-                    map.setCenter(pos);
-
-                    getCurrentAddress(map, infoWindow, pos);
-                },
-                function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
+            },
+                () => {
+                handleLocationError(true, infoWindow, map.getCenter());
                 }
-                );
+            );
             } else {
-                // Browser doesn't support Geolocation.
-                handleLocationError(false, infoWindow, map.getCenter());
+            // Browser yang tidak support Geolocation akan menerima error
+            handleLocationError(false, infoWindow, map.getCenter());
             }
         });
     }
 
+    // Fungsi ini berupa error bila Geolocation tidak dapat menemukan lokasi Anda atau browser yang Anda gunakan tidak support Geolocation API
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(
@@ -122,8 +136,11 @@
         infoWindow.open(map);
     }
 
-    // get current Address from coordinates (pos) using Geocoder API.
+    // Taruh fungsi ini dibawah function handleLocationError() 
+    // Fungsi ini mengkonversikan titik koordinat ke alamat yang bisa dibaca menggunakan Geocoder API
     function getCurrentAddress(map, infowindow, pos) {
+
+        // Definisikan terlebih dahulu Geocoder API-nya
         var geocoder = new google.maps.Geocoder();
 
         if (geocoder) {
@@ -132,17 +149,19 @@
                 console.log(results[1].formatted_address);
                 console.log(pos);
 
-                // create marker at current position.
+                // Buat marker untuk menitikkan lokasi Anda saat ini
                 const marker = new google.maps.Marker({
                 position: pos,
                 map: map,
+                icon:"https://storage.googleapis.com/terra_web/images/marker_50.png"
                 });
 
-                // open an infoWindow above marker & set its content to current address.
+                // ketika sudah dilakukan penitikan pada marker, maka akan muncul infowindow diatas marker yang berisikan alamat Anda saat ini
                 infowindow.setContent("Lokasi Anda: Latitude " + pos.lat +" dan Longitude "+ pos.lng +
                                       "<br><br> Alamat Anda: " + results[1].formatted_address);
                 infowindow.open(map, marker);
                 
+                // Event listener ini berfungsi agar infoWindow yang sudah diclose dapat muncul kembali ketika diklik dari marker
                 google.maps.event.addListener(marker,'click', function () {
                     if ( infowindow.isOpen) { 
                         infowindow.close(map, marker);
